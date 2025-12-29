@@ -1,1 +1,67 @@
+TASK 2: Sensor-Based Simulation
 
+
+
+CODE :-
+#define red 13
+#define blue 12
+#define green 11
+#define temp A0
+#include<LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x20,16,2);
+void setup()
+{
+  
+  Serial.begin(9600);
+  pinMode(red,OUTPUT);
+  pinMode(blue,OUTPUT);
+  pinMode(green,OUTPUT);
+  pinMode(temp,INPUT);
+  digitalWrite(red,LOW);
+  digitalWrite(green,LOW);
+  digitalWrite(blue,LOW);
+  lcd.init();
+  lcd.setBacklight(HIGH);
+  lcd.setCursor(0,1);
+
+
+}
+void loop()
+{
+  int x=analogRead(temp);
+  Serial.println(x);
+  delay(1000);
+  if(x<100)
+  {
+    digitalWrite(blue,HIGH);
+    lcd.clear();
+    lcd.print(x);
+    lcd.setCursor(1,0);
+    lcd.print("BLUE LED ON");
+    delay(2000);
+    lcd.clear();
+  }
+  else if(x>100 && x<200)
+  {
+    digitalWrite(green,HIGH);
+    lcd.print(x);
+    lcd.setCursor(1,0);
+    lcd.print("GREEN LED ON");
+    delay(2000);
+    lcd.clear();
+  }
+  else if(x>200)
+  {
+    digitalWrite(red,HIGH);
+    lcd.print(x);
+    lcd.setCursor(1,0);
+    lcd.print("RED LED ON");
+    delay(2000);
+    lcd.clear();
+  }
+  else
+  {
+
+  }
+  delay(1000);
+}
